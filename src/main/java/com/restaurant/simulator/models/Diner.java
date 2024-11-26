@@ -1,13 +1,17 @@
 package com.restaurant.simulator.models;
 
-import com.restaurant.simulator.threads.RecepcionistMonitor;
+import com.restaurant.simulator.monitors.RecepcionistMonitor;
+import com.restaurant.simulator.monitors.WaiterMonitor;
 
 public class Diner extends Thread {
     private RecepcionistMonitor recepcionistMonitor;
+    private WaiterMonitor waiterMonitor;
+    private boolean hasReceivedFood = false;
 
-    public Diner(RecepcionistMonitor recepcionistMonitor, String name) {
+    public Diner(RecepcionistMonitor recepcionistMonitor, WaiterMonitor waiterMonitor,String name) {
         super(name);
         this.recepcionistMonitor = recepcionistMonitor;
+        this.waiterMonitor = waiterMonitor;
     }
 
     @Override
@@ -17,6 +21,15 @@ public class Diner extends Thread {
 
             recepcionistMonitor.waitTable(this);
 
+            System.out.println("Comensal " + this.getName() + " está listo para ordenar");
+            waiterMonitor.addOrder("Orden de " + this.getName());
+
+            synchronized (this){
+                while(!hasReceivedFood) {
+                    wait();
+                }
+            }
+
             System.out.println("Comensal " + this.getName() + " está comiendo.");
             Thread.sleep((int) (Math.random() * 5000) + 2000);
 
@@ -25,5 +38,10 @@ public class Diner extends Thread {
         } catch (InterruptedException e) {
             System.err.println("Comensal " + this.getName() + " fue interrumpido: " + e.getMessage());
         }
+    }
+
+    public synchronized void receiveFood() {
+        hasReceivedFood = true;
+        notify();
     }
 }

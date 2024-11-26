@@ -1,4 +1,4 @@
-package com.restaurant.simulator.threads;
+package com.restaurant.simulator.monitors;
 
 import com.restaurant.simulator.models.Diner;
 
