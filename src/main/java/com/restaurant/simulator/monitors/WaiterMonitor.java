@@ -17,6 +17,8 @@ public class WaiterMonitor {
         while(orderBuffer.isEmpty()){
             wait();
         }
+        String order = orderBuffer.poll();
+        notifyAll();
         return orderBuffer.poll();
     }
 
@@ -30,6 +32,9 @@ public class WaiterMonitor {
         while(readyBuffer.isEmpty()) {
             wait();
         }
+        String readyOrder = orderBuffer.poll();
+        System.out.println("Comida lista tomada del buffer "+readyOrder);
+        notifyAll();
         return readyBuffer.poll();
     }
 }

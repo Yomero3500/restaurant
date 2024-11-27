@@ -2,6 +2,7 @@ package com.restaurant.simulator.app;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.restaurant.simulator.models.Chef;
 import com.restaurant.simulator.models.Diner;
 import com.restaurant.simulator.monitors.RecepcionistMonitor;
 import com.restaurant.simulator.models.Waiter;
@@ -20,11 +21,19 @@ public class MainApp extends GameApplication {
         //launch(args);
         int capacity = 5;
         int numWaiters = (int) Math.ceil(capacity * 0.1);
+        int numChefs = (int) Math.ceil(capacity * 0.15);
+
+        System.out.println("Meseros: "+numWaiters + " Chefs: "+numChefs);
         RecepcionistMonitor recepcionistMonitor = new RecepcionistMonitor(5);
         WaiterMonitor waiterMonitor = new WaiterMonitor();
 
+        for (int i = 0; i <= numChefs; i++){
+            Chef chef = new Chef(waiterMonitor, "Chef" + (i+1));
+            chef.start();
+        }
+
         for (int i = 0; i <= numWaiters; i++){
-            Waiter waiter = new Waiter(waiterMonitor, "Mesero " + i);
+            Waiter waiter = new Waiter(waiterMonitor, "Mesero " + (i+1));
             waiter.start();
         }
 
