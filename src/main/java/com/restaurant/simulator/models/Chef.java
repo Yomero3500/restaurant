@@ -14,16 +14,16 @@ public class Chef extends Thread{
     public void run() {
         try {
             while(true) {
-                String order = waiterMonitor.takeOrder();
-                System.out.println(this.getName() + " esta preparando: " + order);
+                String order = waiterMonitor.takeOrderChef();
+                System.out.println(this.getName() + " está preparando: " + order);
 
                 Thread.sleep((int) (Math.random() * 5000) + 2000);
 
                 waiterMonitor.addReadyOrder(order);
-                System.out.println(this.getName() + " ha termiando de preparar: " + order);
+                System.out.println(this.getName() + " ha terminado de preparar: " + order);
             }
         } catch (InterruptedException e) {
-            System.out.println(this.getName() + " ha terminado su turno.");
+            System.out.println("Cocinero" + this.getName() + " ha terminado su turno.");
         }
     }
 }

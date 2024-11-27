@@ -41,6 +41,7 @@ public class Diner extends Thread {
     }
 
     public synchronized void receiveFood() {
+        System.out.println("Valor cambiado");
         hasReceivedFood = true;
         notify();
     }

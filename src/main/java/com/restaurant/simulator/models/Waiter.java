@@ -17,7 +17,8 @@ public class Waiter extends Thread{
                 String order = waiterMonitor.takeOrder();
                 System.out.println(this.getName() + " tomó la orden: " + order);
 
-                Thread.sleep((int) (Math.random() * 3000) + 1000);
+                waiterMonitor.addOrderChef(order);
+                System.out.println(this.getName() + " entregó la orden : " + order + " al chef");
 
                 String readyOrder = waiterMonitor.takeReadyOrder();
                 System.out.println(this.getName() + " entregó: " + readyOrder);
@@ -30,6 +31,7 @@ public class Waiter extends Thread{
                     }
                 }
 
+                //Tiempo de descanso antes de tomar otra orden para simular la caminata
                 Thread.sleep((int) (Math.random() * 2000) + 1000);
             }
         } catch (InterruptedException e) {

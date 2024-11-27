@@ -37,7 +37,7 @@ public class MainApp extends GameApplication {
             waiter.start();
         }
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 1; i++) {
             Diner diner = new Diner(recepcionistMonitor, waiterMonitor, "Comensal " + i);
             diner.start();
         }
