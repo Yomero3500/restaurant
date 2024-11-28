@@ -16,6 +16,7 @@ public class RecepcionistMonitor {
             System.out.println("Comensal " + diner.getName() + " está esperando mesa.");
             wait();
         }
+        Thread.sleep(2000);
         availableTables--;
         System.out.println("Comensal " + diner.getName() + " ha tomado una mesa. Mesas disponibles: " + availableTables);
     }

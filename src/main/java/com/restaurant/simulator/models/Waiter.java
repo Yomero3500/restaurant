@@ -1,33 +1,37 @@
 package com.restaurant.simulator.models;
 
+import com.restaurant.simulator.controllers.WaiterController;
 import com.restaurant.simulator.monitors.WaiterMonitor;
 
-public class Waiter extends Thread{
+public class Waiter extends Thread {
     private final WaiterMonitor waiterMonitor;
+    private final WaiterController waiterController;
 
     public Waiter(WaiterMonitor waiterMonitor, String name) {
         super(name);
         this.waiterMonitor = waiterMonitor;
+        this.waiterController = new WaiterController(name); // Nuevo controlador
     }
 
     @Override
-    public void run(){
+    public void run() {
         try {
-            while(true){
+            while (true) {
                 String order = waiterMonitor.takeOrder();
                 System.out.println(this.getName() + " tomó la orden: " + order);
 
+                waiterController.moveToKitchen(); // Animación hacia la cocina
                 waiterMonitor.addOrderChef(order);
-                System.out.println(this.getName() + " entregó la orden : " + order + " al chef");
 
                 String readyOrder = waiterMonitor.takeReadyOrder();
                 System.out.println(this.getName() + " entregó: " + readyOrder);
 
                 String dinerName = readyOrder.split(" ")[1];
+                waiterController.moveToTable(300, 200); // Mover hacia la mesa del cliente
                 waiterMonitor.deliverFood(dinerName);
+                waiterController.deliverOrder(readyOrder);
 
-                //Tiempo de descanso antes de tomar otra orden para simular la caminata
-                Thread.sleep((int) (Math.random() * 2000) + 1000);
+                Thread.sleep((int) (Math.random() * 2000) + 1000); // Simulación de tiempo
             }
         } catch (InterruptedException e) {
             System.out.println("Mesero " + this.getName() + " ha terminado su turno.");
