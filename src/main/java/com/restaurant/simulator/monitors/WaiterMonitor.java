@@ -2,18 +2,23 @@ package com.restaurant.simulator.monitors;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Map;
+import java.util.HashMap;
 
 public class WaiterMonitor {
     private final Queue<String> orderBuffer = new LinkedList<>();
     private final Queue<String> orderBufferChef = new LinkedList<>();
     private final Queue<String> readyBuffer = new LinkedList<>();
+    private final Map<String, Boolean> dinerFoodStatus = new HashMap<>();
 
     public synchronized void addOrder(String order) {
         if (order == null || order.isEmpty()) {
             throw new IllegalArgumentException("La orden no puede ser nula o vacía");
         }
+        String dinerName = order.split(" ")[1];
+        dinerFoodStatus.put(dinerName, false);
         orderBuffer.add(order);
-        System.out.println("Orden añadida al buffer: " + order);
+        System.out.println("Orden añadida al buffer: " + order + " del " + dinerName);
         notifyAll();
     }
 
@@ -61,5 +66,19 @@ public class WaiterMonitor {
         System.out.println("Comida lista tomada del buffer: " + readyOrder);
         notifyAll();
         return readyOrder;
+    }
+
+    public synchronized void deliverFood(String dinerName) {
+        dinerFoodStatus.put(dinerName, true);
+        System.out.println("Comida entregada a: " + dinerName + " (Estado: " + dinerFoodStatus.get(dinerName) + ")");
+        notifyAll();
+    }
+
+    public synchronized void waitFood(String dinerName) throws InterruptedException {
+        while (!dinerFoodStatus.getOrDefault(dinerName, false)) {
+            System.out.println("Esperando comida para: " + dinerName);
+            wait();
+        }
+        System.out.println("Comida lista para: " + dinerName);
     }
 }

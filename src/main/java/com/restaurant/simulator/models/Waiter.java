@@ -23,13 +23,8 @@ public class Waiter extends Thread{
                 String readyOrder = waiterMonitor.takeReadyOrder();
                 System.out.println(this.getName() + " entregó: " + readyOrder);
 
-                String dinerName = readyOrder.split(" ")[2];
-                for (Thread thread : Thread.getAllStackTraces().keySet()) {
-                    if (thread instanceof Diner && thread.getName().equals(dinerName)) {
-                        ((Diner) thread).receiveFood();
-                        break;
-                    }
-                }
+                String dinerName = readyOrder.split(" ")[1];
+                waiterMonitor.deliverFood(dinerName);
 
                 //Tiempo de descanso antes de tomar otra orden para simular la caminata
                 Thread.sleep((int) (Math.random() * 2000) + 1000);

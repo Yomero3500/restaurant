@@ -22,13 +22,9 @@ public class Diner extends Thread {
             recepcionistMonitor.waitTable(this);
 
             System.out.println("Comensal " + this.getName() + " está listo para ordenar");
-            waiterMonitor.addOrder("Orden de " + this.getName());
+            waiterMonitor.addOrder("Orden " + this.getName());
 
-            synchronized (this){
-                while(!hasReceivedFood) {
-                    wait();
-                }
-            }
+            waiterMonitor.waitFood(this.getName());
 
             System.out.println("Comensal " + this.getName() + " está comiendo.");
             Thread.sleep((int) (Math.random() * 5000) + 2000);
@@ -43,6 +39,6 @@ public class Diner extends Thread {
     public synchronized void receiveFood() {
         System.out.println("Valor cambiado");
         hasReceivedFood = true;
-        notify();
+        notifyAll();
     }
 }

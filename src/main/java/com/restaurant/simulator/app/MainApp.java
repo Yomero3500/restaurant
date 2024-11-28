@@ -37,8 +37,9 @@ public class MainApp extends GameApplication {
             waiter.start();
         }
 
-        for (int i = 1; i <= 1; i++) {
-            Diner diner = new Diner(recepcionistMonitor, waiterMonitor, "Comensal " + i);
+        for (int i = 1; i <= 2; i++) {
+            String id = "C"+i;
+            Diner diner = new Diner(recepcionistMonitor, waiterMonitor, id);
             diner.start();
         }
     }
