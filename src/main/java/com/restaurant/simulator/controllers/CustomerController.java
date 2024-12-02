@@ -2,17 +2,17 @@ package com.restaurant.simulator.controllers;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.dsl.FXGL;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import com.almasb.fxgl.texture.Texture;
+import com.restaurant.simulator.utils.SpriteLoader;
 
 public class CustomerController {
     private Entity dinerEntity;
 
     public CustomerController(String dinerName) {
-        Circle dinerCircle = new Circle(10, Color.BLUE);
+        Texture texture = SpriteLoader.getSprite("burger.png",1,1,32,32);
         dinerEntity = FXGL.entityBuilder()
                 .at(50, 550) // Posición inicial fuera del restaurante
-                .view(dinerCircle)
+                .view(texture)
                 .buildAndAttach();
     }
 
@@ -26,6 +26,7 @@ public class CustomerController {
     }
 
     public void exitRestaurant() {
+        // Movimiento de salida del restaurante
         FXGL.animationBuilder()
                 .duration(javafx.util.Duration.seconds(2))
                 .translate(dinerEntity)

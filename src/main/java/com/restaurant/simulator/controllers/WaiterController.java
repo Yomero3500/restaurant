@@ -2,6 +2,7 @@ package com.restaurant.simulator.controllers;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import javafx.scene.shape.Circle;
 
 public class WaiterController {
@@ -20,18 +21,18 @@ public class WaiterController {
     }
 
     public void moveToKitchen() {
-        FXGL.runOnce(() -> waiterView.setTranslateX(200), FXGL.seconds(1));
-        FXGL.runOnce(() -> waiterView.setTranslateY(300), FXGL.seconds(2));
+        FXGL.runOnce(() -> waiterView.setTranslateX(200), Duration.seconds(1));
+        FXGL.runOnce(() -> waiterView.setTranslateY(300), Duration.seconds(2));
     }
 
     public void moveToTable(int x, int y) {
-        FXGL.runOnce(() -> waiterView.setTranslateX(x), FXGL.seconds(1));
-        FXGL.runOnce(() -> waiterView.setTranslateY(y), FXGL.seconds(2));
+        FXGL.runOnce(() -> waiterView.setTranslateX(x), Duration.seconds(1));
+        FXGL.runOnce(() -> waiterView.setTranslateY(y), Duration.seconds(2));
     }
 
     public void deliverOrder(String order) {
         System.out.println(name + " está entregando la orden: " + order);
-        FXGL.runOnce(() -> waiterView.setFill(Color.GREEN), FXGL.seconds(0.5));
-        FXGL.runOnce(() -> waiterView.setFill(Color.BLUE), FXGL.seconds(1.5));
+        FXGL.runOnce(() -> waiterView.setFill(Color.GREEN), Duration.seconds(0.5));
+        FXGL.runOnce(() -> waiterView.setFill(Color.BLUE), Duration.seconds(1.5));
     }
 }

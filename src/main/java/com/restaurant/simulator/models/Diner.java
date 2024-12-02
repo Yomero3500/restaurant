@@ -3,18 +3,24 @@ package com.restaurant.simulator.models;
 import com.restaurant.simulator.controllers.CustomerController;
 import com.restaurant.simulator.monitors.RecepcionistMonitor;
 import com.restaurant.simulator.monitors.WaiterMonitor;
+import javafx.geometry.Point2D;
 
 public class Diner extends Thread {
     private RecepcionistMonitor recepcionistMonitor;
     private WaiterMonitor waiterMonitor;
     private CustomerController customerController; // Nuevo controlador
     private boolean hasReceivedFood = false;
+    private Point2D mesa;
 
     public Diner(RecepcionistMonitor recepcionistMonitor, WaiterMonitor waiterMonitor, String name) {
         super(name);
         this.recepcionistMonitor = recepcionistMonitor;
         this.waiterMonitor = waiterMonitor;
-        this.customerController = new CustomerController(name); // Instancia del controlador
+        this.customerController = new CustomerController(name);
+    }
+
+    public CustomerController getCustomerController() {
+        return customerController;
     }
 
     @Override
@@ -26,7 +32,7 @@ public class Diner extends Thread {
             Thread.sleep(1000); // Simular el tiempo de entrada
             customerController.moveToTable(200, 300);
 
-            recepcionistMonitor.waitTable(this);
+            mesa = recepcionistMonitor.assignTable();
 
             System.out.println("Comensal " + this.getName() + " está listo para ordenar.");
             waiterMonitor.addOrder("Orden " + this.getName());
@@ -38,9 +44,10 @@ public class Diner extends Thread {
 
             System.out.println("Comensal " + this.getName() + " ha terminado de comer y está saliendo.");
 
+            // Movimiento hacia la salida
             customerController.exitRestaurant();
 
-            recepcionistMonitor.leavetable(this);
+            recepcionistMonitor.releaseTable(mesa);
         } catch (InterruptedException e) {
             System.err.println("Comensal " + this.getName() + " fue interrumpido: " + e.getMessage());
         }

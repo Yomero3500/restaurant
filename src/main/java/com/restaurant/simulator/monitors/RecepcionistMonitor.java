@@ -1,33 +1,42 @@
 package com.restaurant.simulator.monitors;
 
-import com.restaurant.simulator.models.Diner;
+import javafx.geometry.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecepcionistMonitor {
-    private int availableTables;
     private final int capacity;
+    private final Map<Point2D, Boolean> tableStatus;
 
-    public RecepcionistMonitor(int capacity) {
+    public RecepcionistMonitor(int capacity, Point2D[] tablePositions) {
         this.capacity = capacity;
-        this.availableTables = capacity;
+        this.tableStatus = new HashMap<>();
+        for (Point2D position : tablePositions) {
+            tableStatus.put(position, false);
+        }
     }
 
-    public synchronized void waitTable(Diner diner) throws InterruptedException {
-        while (availableTables == 0) {
-            System.out.println("Comensal " + diner.getName() + " está esperando mesa.");
+    public synchronized Point2D assignTable() throws InterruptedException {
+        while (tableStatus.values().stream().noneMatch(status -> !status)) {
             wait();
         }
-        Thread.sleep(2000);
-        availableTables--;
-        System.out.println("Comensal " + diner.getName() + " ha tomado una mesa. Mesas disponibles: " + availableTables);
+        for (Map.Entry<Point2D, Boolean> entry : tableStatus.entrySet()) {
+            if (!entry.getValue()) {
+                entry.setValue(true);
+                System.out.println("La mesa:"+entry.getKey()+" ha sido tomada");// Reservar la mesa
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
-    public synchronized void leavetable(Diner diner) {
-        availableTables++;
-        System.out.println("Comensal " + diner.getName() + " liberó una mesa. Mesas disponibles: " + availableTables);
-        notifyAll();
+    public synchronized void releaseTable(Point2D tablePosition) {
+        tableStatus.put(tablePosition, false); // Liberar la mesa
+        System.out.println("La mesa ubicada en:"+tablePosition+" ha sido liberada");
+        notifyAll(); // Notificar a los hilos en espera
     }
 
-    public synchronized int getAvailableTables() {
-        return availableTables;
+    public synchronized boolean isTableAvailable(Point2D tablePosition) {
+        return tableStatus.getOrDefault(tablePosition, false);
     }
 }
