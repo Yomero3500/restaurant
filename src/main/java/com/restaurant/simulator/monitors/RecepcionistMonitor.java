@@ -1,5 +1,6 @@
 package com.restaurant.simulator.monitors;
 
+import com.restaurant.simulator.controllers.CustomerController;
 import javafx.geometry.Point2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class RecepcionistMonitor {
             wait();
         }
         for (Map.Entry<Point2D, Boolean> entry : tableStatus.entrySet()) {
+            Thread.sleep(1000);
             if (!entry.getValue()) {
                 entry.setValue(true);
                 System.out.println("La mesa:"+entry.getKey()+" ha sido tomada");// Reservar la mesa

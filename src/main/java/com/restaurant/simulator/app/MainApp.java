@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.restaurant.simulator.controllers.TableController;
 import com.restaurant.simulator.utils.SpriteLoader;
 import com.almasb.fxgl.texture.Texture;
 import com.restaurant.simulator.models.Chef;
@@ -49,8 +50,8 @@ public class MainApp extends GameApplication {
         recepcionistMonitor = new RecepcionistMonitor(tablePositions.length, tablePositions);
         waiterMonitor = new WaiterMonitor();
         for (int i = 0; i < capacity; i++) {
-            Entity mesa = FXGL.entityBuilder()
-                    .at()
+            Point2D position = tablePositions[i];
+            TableController mesa = new TableController(position);
         }
         // Create Chefs
         int numChefs = (int) Math.ceil(capacity * 0.15);

@@ -10,7 +10,7 @@ public class TableController {
 
     public TableController(Point2D position) {
 
-        Texture tableTexture = SpriteLoader.getSprite("interior.png",3,45,32,32);
+        Texture tableTexture = SpriteLoader.getSprite("interior.png",3,8,32,128);
 
         tableEntity = FXGL.entityBuilder()
                 .at(position)

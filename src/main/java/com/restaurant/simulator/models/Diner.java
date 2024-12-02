@@ -27,13 +27,10 @@ public class Diner extends Thread {
     public void run() {
         try {
             System.out.println("Comensal " + this.getName() + " ha llegado al restaurante.");
-
-            // Movimiento hacia el restaurante
             Thread.sleep(1000); // Simular el tiempo de entrada
-            customerController.moveToTable(200, 300);
-
+            customerController.moveToLobby(700, 550);
             mesa = recepcionistMonitor.assignTable();
-
+            customerController.moveToTable(mesa.getX(), mesa.getY());
             System.out.println("Comensal " + this.getName() + " está listo para ordenar.");
             waiterMonitor.addOrder("Orden " + this.getName());
 
