@@ -20,7 +20,7 @@ public class Chef extends Thread {
                 String order = waiterMonitor.takeOrderChef();
                 cocineroController.startCooking(order);
 
-                Thread.sleep((int) (Math.random() * 5000) + 2000);
+                Thread.sleep((int) (Math.random() * 2000));
 
                 waiterMonitor.addReadyOrder(order);
                 cocineroController.finishCooking(order);

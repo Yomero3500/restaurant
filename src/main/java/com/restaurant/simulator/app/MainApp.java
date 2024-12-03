@@ -5,8 +5,6 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.restaurant.simulator.controllers.TableController;
-import com.restaurant.simulator.utils.SpriteLoader;
-import com.almasb.fxgl.texture.Texture;
 import com.restaurant.simulator.models.Chef;
 import com.restaurant.simulator.models.Diner;
 import com.restaurant.simulator.monitors.RecepcionistMonitor;
@@ -14,15 +12,9 @@ import com.restaurant.simulator.models.Waiter;
 import com.restaurant.simulator.monitors.WaiterMonitor;
 import javafx.geometry.Point2D;
 
-import javafx.geometry.Rectangle2D;
-import javafx.util.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainApp extends GameApplication {
 
-    private List<Entity> waiterEntities = new ArrayList<>();
-    private List<Entity> chefEntities = new ArrayList<>();
 
     private RecepcionistMonitor recepcionistMonitor;
     private WaiterMonitor waiterMonitor;
@@ -37,16 +29,20 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGame() {
+        FXGL.getGameScene().setBackgroundRepeat("fondo.png");
         // Definir posiciones de mesas
         Point2D[] tablePositions = {
                 new Point2D(150, 200),
+                new Point2D(150, 300),
+                new Point2D(250, 200),
                 new Point2D(250, 300),
                 new Point2D(350, 200),
-                new Point2D(450, 300),
-                new Point2D(500, 200)
+                new Point2D(350, 300),
+                new Point2D(450, 200),
+                new Point2D(450, 300)
         };
         // Initialize Monitors
-        int capacity = 5;
+        int capacity = 8;
         recepcionistMonitor = new RecepcionistMonitor(tablePositions.length, tablePositions);
         waiterMonitor = new WaiterMonitor();
         for (int i = 0; i < capacity; i++) {
@@ -59,13 +55,6 @@ public class MainApp extends GameApplication {
             String chefName = "Chef" + (i + 1);
             Chef chef = new Chef(waiterMonitor, chefName);
             chef.start();
-
-            Entity chefEntity = FXGL.entityBuilder()
-                    .at(100, 400 + i * 50)
-                    .viewWithBBox("chef.png")
-                    .buildAndAttach();
-
-            chefEntities.add(chefEntity);
         }
 
         // Create Waiters
@@ -74,17 +63,10 @@ public class MainApp extends GameApplication {
             String waiterName = "Mesero " + (i + 1);
             Waiter waiter = new Waiter(waiterMonitor, waiterName);
             waiter.start();
-
-            Entity waiterEntity = FXGL.entityBuilder()
-                    .at(200, 400 + i * 50)
-                    .viewWithBBox("waiter.png")
-                    .buildAndAttach();
-
-            waiterEntities.add(waiterEntity);
         }
 
 
-        // Create Diners and Animate Movement
+        // Create Diners
         for (int i = 1; i <= capacity*3; i++) {
             String dinerName = "C" + i;
             Diner diner = new Diner(recepcionistMonitor, waiterMonitor, dinerName);
@@ -94,7 +76,6 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initUI() {
-        // Add UI components if needed, e.g., labels to show status
         FXGL.addUINode(FXGL.getUIFactoryService().newText("Restaurant Simulation", 20), 10, 20);
     }
 

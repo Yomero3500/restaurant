@@ -20,7 +20,7 @@ public class Waiter extends Thread {
                 String order = waiterMonitor.takeOrder();
                 System.out.println(this.getName() + " tomó la orden: " + order);
 
-                waiterController.moveToKitchen(); // Animación hacia la cocina
+                waiterController.moveToKitchen(400, 150);
                 waiterMonitor.addOrderChef(order);
 
                 String readyOrder = waiterMonitor.takeReadyOrder();
@@ -31,7 +31,7 @@ public class Waiter extends Thread {
                 waiterMonitor.deliverFood(dinerName);
                 waiterController.deliverOrder(readyOrder);
 
-                Thread.sleep((int) (Math.random() * 2000) + 1000); // Simulación de tiempo
+                Thread.sleep((int) (Math.random() * 2000));
             }
         } catch (InterruptedException e) {
             System.out.println("Mesero " + this.getName() + " ha terminado su turno.");

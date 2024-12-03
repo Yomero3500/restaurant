@@ -31,17 +31,16 @@ public class Diner extends Thread {
             customerController.moveToLobby(700, 550);
             mesa = recepcionistMonitor.assignTable();
             customerController.moveToTable(mesa.getX(), mesa.getY());
+
             System.out.println("Comensal " + this.getName() + " está listo para ordenar.");
             waiterMonitor.addOrder("Orden " + this.getName());
 
             waiterMonitor.waitFood(this.getName());
 
             System.out.println("Comensal " + this.getName() + " está comiendo.");
-            Thread.sleep((int) (Math.random() * 5000) + 2000);
-
+            Thread.sleep((int) (Math.random() * 5000) + 5000);
             System.out.println("Comensal " + this.getName() + " ha terminado de comer y está saliendo.");
 
-            // Movimiento hacia la salida
             customerController.exitRestaurant();
 
             recepcionistMonitor.releaseTable(mesa);

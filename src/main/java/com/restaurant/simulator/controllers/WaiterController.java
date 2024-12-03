@@ -1,6 +1,10 @@
 package com.restaurant.simulator.controllers;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.texture.Texture;
+import com.restaurant.simulator.utils.SpriteLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.scene.shape.Circle;
@@ -8,31 +12,34 @@ import javafx.scene.shape.Circle;
 public class WaiterController {
     private String name;
     private Circle waiterView;
+    private Entity waiterEntity;
 
     public WaiterController(String name) {
         this.name = name;
-        this.waiterView = new Circle(15, Color.BLUE); // Representación gráfica
-        FXGL.getGameWorld().addEntity(
-                FXGL.entityBuilder()
-                        .at(100, 100) // Posición inicial del mesero
-                        .view(waiterView)
-                        .build()
-        );
+        Texture textureWaiter = SpriteLoader.getSprite("pan.png",1,1,32,32);
+        waiterEntity= FXGL.entityBuilder()
+                .at(200,400)
+                .viewWithBBox(textureWaiter)
+                .buildAndAttach();
     }
 
-    public void moveToKitchen() {
-        FXGL.runOnce(() -> waiterView.setTranslateX(200), Duration.seconds(1));
-        FXGL.runOnce(() -> waiterView.setTranslateY(300), Duration.seconds(2));
+    public void moveToKitchen(int tableX, int tableY) {
+        FXGL.animationBuilder()
+                .duration(javafx.util.Duration.seconds(1))
+                .translate(waiterEntity)
+                .to(new Point2D(tableX, tableY))
+                .buildAndPlay();
     }
 
     public void moveToTable(int x, int y) {
-        FXGL.runOnce(() -> waiterView.setTranslateX(x), Duration.seconds(1));
-        FXGL.runOnce(() -> waiterView.setTranslateY(y), Duration.seconds(2));
+        FXGL.animationBuilder()
+                .duration(javafx.util.Duration.seconds(1))
+                .translate(waiterEntity)
+                .to(new Point2D(x, y))
+                .buildAndPlay();
     }
 
     public void deliverOrder(String order) {
         System.out.println(name + " está entregando la orden: " + order);
-        FXGL.runOnce(() -> waiterView.setFill(Color.GREEN), Duration.seconds(0.5));
-        FXGL.runOnce(() -> waiterView.setFill(Color.BLUE), Duration.seconds(1.5));
     }
 }

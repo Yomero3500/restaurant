@@ -12,7 +12,7 @@ public class CustomerController {
     public CustomerController(String dinerName) {
         Texture texture = SpriteLoader.getSprite("burger.png",1,1,32,32);
         dinerEntity = FXGL.entityBuilder()
-                .at(250, 550) // Posición inicial fuera del restaurante
+                .at(250, 550)
                 .view(texture)
                 .buildAndAttach();
     }
