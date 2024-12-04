@@ -2,6 +2,7 @@ package com.restaurant.simulator.models;
 
 import com.restaurant.simulator.controllers.WaiterController;
 import com.restaurant.simulator.monitors.WaiterMonitor;
+import javafx.geometry.Point2D;
 
 public class Waiter extends Thread {
     private final WaiterMonitor waiterMonitor;
@@ -26,6 +27,7 @@ public class Waiter extends Thread {
                 String readyOrder = waiterMonitor.takeReadyOrder();
                 System.out.println(this.getName() + " entregó: " + readyOrder);
 
+                System.out.println("La mesa del cliente es:");
                 String dinerName = readyOrder.split(" ")[1];
                 waiterController.moveToTable(300, 200); // Mover hacia la mesa del cliente
                 waiterMonitor.deliverFood(dinerName);

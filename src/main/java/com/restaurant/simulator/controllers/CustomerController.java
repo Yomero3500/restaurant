@@ -12,7 +12,7 @@ public class CustomerController {
     public CustomerController(String dinerName) {
         Texture texture = SpriteLoader.getSprite("burger.png",1,1,32,32);
         dinerEntity = FXGL.entityBuilder()
-                .at(250, 550)
+                .at(700, 550)
                 .view(texture)
                 .buildAndAttach();
     }
@@ -43,9 +43,23 @@ public class CustomerController {
     public void exitRestaurant() {
         // Movimiento de salida del restaurante
         FXGL.animationBuilder()
-                .duration(javafx.util.Duration.seconds(2))
+                .onFinished(()->{
+                    FXGL.animationBuilder()
+                            .onFinished(()->{
+                                FXGL.animationBuilder()
+                                        .duration(javafx.util.Duration.seconds(1))
+                                        .translate(dinerEntity)
+                                        .to(new javafx.geometry.Point2D(700, -50))
+                                        .buildAndPlay();
+                            })
+                            .duration(javafx.util.Duration.seconds(1))
+                            .translate(dinerEntity)
+                            .to(new javafx.geometry.Point2D(700, 300))
+                            .buildAndPlay();
+                })
+                .duration(javafx.util.Duration.seconds(1))
                 .translate(dinerEntity)
-                .to(new javafx.geometry.Point2D(800, 550)) // Punto fuera de la pantalla
+                .to(new javafx.geometry.Point2D(550, 300))
                 .buildAndPlay();
     }
 }

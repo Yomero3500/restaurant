@@ -76,7 +76,6 @@ public class WaiterMonitor {
 
     public synchronized void waitFood(String dinerName) throws InterruptedException {
         while (!dinerFoodStatus.getOrDefault(dinerName, false)) {
-            System.out.println("Esperando comida para: " + dinerName);
             wait();
         }
         System.out.println("Comida lista para: " + dinerName);

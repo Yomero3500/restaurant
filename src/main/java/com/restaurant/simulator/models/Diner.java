@@ -8,7 +8,7 @@ import javafx.geometry.Point2D;
 public class Diner extends Thread {
     private RecepcionistMonitor recepcionistMonitor;
     private WaiterMonitor waiterMonitor;
-    private CustomerController customerController; // Nuevo controlador
+    private CustomerController customerController;
     private boolean hasReceivedFood = false;
     private Point2D mesa;
 
@@ -23,12 +23,17 @@ public class Diner extends Thread {
         return customerController;
     }
 
+    public Point2D getMesa() {
+        return mesa;
+    }
+
     @Override
     public void run() {
         try {
             System.out.println("Comensal " + this.getName() + " ha llegado al restaurante.");
-            Thread.sleep(1000); // Simular el tiempo de entrada
+            Thread.sleep(200); // Simular el tiempo de entrada
             customerController.moveToLobby(700, 550);
+            Thread.sleep(1000);
             mesa = recepcionistMonitor.assignTable();
             customerController.moveToTable(mesa.getX(), mesa.getY());
 

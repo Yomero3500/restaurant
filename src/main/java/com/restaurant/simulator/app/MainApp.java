@@ -29,27 +29,26 @@ public class MainApp extends GameApplication {
 
     @Override
     protected void initGame() {
-        FXGL.getGameScene().setBackgroundRepeat("fondo.png");
-        // Definir posiciones de mesas
+        FXGL.getGameScene().setBackgroundRepeat("download.jpeg");
+
         Point2D[] tablePositions = {
-                new Point2D(150, 200),
-                new Point2D(150, 300),
-                new Point2D(250, 200),
-                new Point2D(250, 300),
-                new Point2D(350, 200),
-                new Point2D(350, 300),
-                new Point2D(450, 200),
-                new Point2D(450, 300)
+                new Point2D(140, 260),
+                new Point2D(270, 365),
+                new Point2D(140, 470),
+                new Point2D(350, 260),
+                new Point2D(490, 365),
+                new Point2D(490, 470),
+                new Point2D(420, 160),
+                new Point2D(500, 160)
         };
-        // Initialize Monitors
+
         int capacity = 8;
         recepcionistMonitor = new RecepcionistMonitor(tablePositions.length, tablePositions);
         waiterMonitor = new WaiterMonitor();
         for (int i = 0; i < capacity; i++) {
             Point2D position = tablePositions[i];
-            TableController mesa = new TableController(position);
         }
-        // Create Chefs
+
         int numChefs = (int) Math.ceil(capacity * 0.15);
         for (int i = 0; i < numChefs; i++) {
             String chefName = "Chef" + (i + 1);
@@ -57,7 +56,7 @@ public class MainApp extends GameApplication {
             chef.start();
         }
 
-        // Create Waiters
+
         int numWaiters = (int) Math.ceil(capacity * 0.1);
         for (int i = 0; i < numWaiters; i++) {
             String waiterName = "Mesero " + (i + 1);
@@ -66,7 +65,7 @@ public class MainApp extends GameApplication {
         }
 
 
-        // Create Diners
+    
         for (int i = 1; i <= capacity*3; i++) {
             String dinerName = "C" + i;
             Diner diner = new Diner(recepcionistMonitor, waiterMonitor, dinerName);
