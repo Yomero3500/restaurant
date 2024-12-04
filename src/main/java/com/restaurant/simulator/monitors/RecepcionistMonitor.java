@@ -6,6 +6,7 @@ import com.restaurant.simulator.models.Diner;
 import javafx.geometry.Point2D;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class RecepcionistMonitor {
     private final int capacity;

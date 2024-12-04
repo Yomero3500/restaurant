@@ -5,7 +5,11 @@ import com.restaurant.simulator.monitors.RecepcionistMonitor;
 import com.restaurant.simulator.monitors.WaiterMonitor;
 import javafx.geometry.Point2D;
 
+import java.util.Random;
+
 public class Diner extends Thread {
+    private static final Random random = new Random();
+    private static final  double LAMBDA = 0.1;
     private RecepcionistMonitor recepcionistMonitor;
     private WaiterMonitor waiterMonitor;
     private CustomerController customerController;
@@ -31,7 +35,7 @@ public class Diner extends Thread {
     public void run() {
         try {
             System.out.println("Comensal " + this.getName() + " ha llegado al restaurante.");
-            Thread.sleep(200); // Simular el tiempo de entrada
+            Thread.sleep(poisson(LAMBDA));
             customerController.moveToLobby(700, 550);
             Thread.sleep(1000);
             mesa = recepcionistMonitor.assignTable();
@@ -52,6 +56,11 @@ public class Diner extends Thread {
         } catch (InterruptedException e) {
             System.err.println("Comensal " + this.getName() + " fue interrumpido: " + e.getMessage());
         }
+    }
+
+    private long poisson (double lambda){
+        double u = random.nextDouble();
+        return (long) (-Math.log(1 - u) / lambda * 1000);
     }
 
     public synchronized void receiveFood() {

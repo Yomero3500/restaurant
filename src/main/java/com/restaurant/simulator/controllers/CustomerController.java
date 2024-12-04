@@ -12,7 +12,7 @@ public class CustomerController {
     public CustomerController(String dinerName) {
         Texture texture = SpriteLoader.getSprite("burger.png",1,1,32,32);
         dinerEntity = FXGL.entityBuilder()
-                .at(700, 550)
+                .at(700, 650)
                 .scale(1.5,1.5)
                 .view(texture)
                 .buildAndAttach();
