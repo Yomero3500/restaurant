@@ -14,11 +14,13 @@ public class WaiterController {
     private Circle waiterView;
     private Entity waiterEntity;
 
+
     public WaiterController(String name) {
         this.name = name;
         Texture textureWaiter = SpriteLoader.getSprite("pan.png",1,1,32,32);
         waiterEntity= FXGL.entityBuilder()
-                .at(200,400)
+                .at(150,200)
+                .scale(1.5,1.5)
                 .viewWithBBox(textureWaiter)
                 .buildAndAttach();
     }
@@ -31,11 +33,11 @@ public class WaiterController {
                 .buildAndPlay();
     }
 
-    public void moveToTable(int x, int y) {
+    public void moveToTable(Point2D msa) {
         FXGL.animationBuilder()
                 .duration(javafx.util.Duration.seconds(1))
                 .translate(waiterEntity)
-                .to(new Point2D(x, y))
+                .to(new Point2D(msa.getX(), msa.getY()))
                 .buildAndPlay();
     }
 

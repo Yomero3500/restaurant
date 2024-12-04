@@ -13,6 +13,7 @@ public class CustomerController {
         Texture texture = SpriteLoader.getSprite("burger.png",1,1,32,32);
         dinerEntity = FXGL.entityBuilder()
                 .at(700, 550)
+                .scale(1.5,1.5)
                 .view(texture)
                 .buildAndAttach();
     }
@@ -23,7 +24,7 @@ public class CustomerController {
                     FXGL.animationBuilder()
                             .duration(javafx.util.Duration.seconds(1))
                             .translate(dinerEntity)
-                            .to(new Point2D(tableX,tableY-200))
+                            .to(new Point2D(tableX,tableY-250))
                             .buildAndPlay();
                 })
                 .duration(javafx.util.Duration.seconds(1))
@@ -34,9 +35,16 @@ public class CustomerController {
 
     public void moveToTable(double tableX, double tableY){
         FXGL.animationBuilder()
+                .onFinished(()->{
+                    FXGL.animationBuilder()
+                            .duration(javafx.util.Duration.seconds(1))
+                            .translate(dinerEntity)
+                            .to(new Point2D(tableX, tableY))
+                            .buildAndPlay();
+                })
                 .duration(javafx.util.Duration.seconds(1))
                 .translate(dinerEntity)
-                .to(new Point2D(tableX, tableY))
+                .to(new Point2D(500, 300))
                 .buildAndPlay();
     }
 

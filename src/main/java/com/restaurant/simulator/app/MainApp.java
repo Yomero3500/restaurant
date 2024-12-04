@@ -32,14 +32,14 @@ public class MainApp extends GameApplication {
         FXGL.getGameScene().setBackgroundRepeat("download.jpeg");
 
         Point2D[] tablePositions = {
-                new Point2D(140, 260),
-                new Point2D(270, 365),
-                new Point2D(140, 470),
-                new Point2D(350, 260),
-                new Point2D(490, 365),
-                new Point2D(490, 470),
-                new Point2D(420, 160),
-                new Point2D(500, 160)
+                new Point2D(130, 250),
+                new Point2D(270, 355),
+                new Point2D(130, 460),
+                new Point2D(350, 250),
+                new Point2D(490, 355),
+                new Point2D(490, 460),
+                new Point2D(420, 150),
+                new Point2D(490, 150)
         };
 
         int capacity = 8;
@@ -49,7 +49,8 @@ public class MainApp extends GameApplication {
             Point2D position = tablePositions[i];
         }
 
-        int numChefs = (int) Math.ceil(capacity * 0.15);
+        int numChefs = (int) Math.ceil(capacity * 0.1);
+        System.out.println(numChefs);
         for (int i = 0; i < numChefs; i++) {
             String chefName = "Chef" + (i + 1);
             Chef chef = new Chef(waiterMonitor, chefName);
