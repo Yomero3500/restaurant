@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.restaurant.simulator.controllers.RecepcionistController;
 import com.restaurant.simulator.controllers.TableController;
 import com.restaurant.simulator.models.Chef;
 import com.restaurant.simulator.models.Diner;
@@ -42,6 +43,8 @@ public class MainApp extends GameApplication {
                 new Point2D(490, 150)
         };
 
+        RecepcionistController controller = new RecepcionistController();
+
         int capacity = 8;
         recepcionistMonitor = new RecepcionistMonitor(tablePositions.length, tablePositions);
         waiterMonitor = new WaiterMonitor();
@@ -50,7 +53,6 @@ public class MainApp extends GameApplication {
         }
 
         int numChefs = (int) Math.ceil(capacity * 0.1);
-        System.out.println(numChefs);
         for (int i = 0; i < numChefs; i++) {
             String chefName = "Chef" + (i + 1);
             Chef chef = new Chef(waiterMonitor, chefName);
@@ -65,8 +67,6 @@ public class MainApp extends GameApplication {
             waiter.start();
         }
 
-
-    
         for (int i = 1; i <= capacity*3; i++) {
             String dinerName = "C" + i;
             Diner diner = new Diner(recepcionistMonitor, waiterMonitor, dinerName);
